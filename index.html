@@ -93,21 +93,25 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            /* gap: 15px; REMOVED GAP so the image text sits next to the script text */
             text-decoration: none;
         }
 
+        /* --- UPDATED LOGO STYLES --- */
+        /* Old .logo-circle code has been removed */
+
+        /* New Image Style */
         .logo-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%; /* Keeps the image circular */
-    object-fit: cover;  /* Prevents the image from squishing */
-}
+            height: 60px; /* Sets height to fit header */
+            width: auto;  /* Maintains aspect ratio */
+            margin-right: 10px;
+        }
 
         .logo-text {
             font-family: 'Pacifico', cursive;
             font-size: 1.2rem;
             color: var(--primary);
+            /* Hide the text on very small screens if needed, but okay for now */
         }
 
         /* --- NEW THEME TOGGLE (Segmented Control) --- */
@@ -269,11 +273,10 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            align-items: stretch; /* Forces cards to equal height */
+            align-items: stretch;
         }
 
         .join-card {
-            /* Flex Column to push button to bottom */
             display: flex;
             flex-direction: column;
             height: 100%; 
@@ -294,10 +297,9 @@
             letter-spacing: 1px;
         }
         
-        /* This pushes the button to the bottom of the card */
         .join-card .btn {
             margin-top: auto;
-            align-self: center; /* Centers button horizontally */
+            align-self: center;
         }
 
         /* --- FAQ --- */
@@ -367,7 +369,6 @@
             .hamburger { display: block; color: var(--text-dark); }
             [data-theme="dark"] .hamburger { color: var(--text-light); }
             
-            /* Hide the fancy toggle on mobile? Or keep it. Keeping it next to hamburger. */
             .controls { gap: 10px; }
             .theme-switch-btn { padding: 4px 8px; font-size: 0.7rem; }
 
@@ -391,7 +392,7 @@
 
     <header>
         <a href="/Living-Water-Church/" class="logo-container">
-            <img src="/Living-Water-Church/images/LWC_full_logo.png" alt="LWC Logo" class="logo-img">
+            <img src="/Living-Water-Church/images/LWC_full_logo.png" alt="Living Water Church Logo" class="logo-img">
         </a>
 
         <div class="controls">
@@ -484,7 +485,7 @@
                     <h3>IN PERSON</h3>
                     <p>Location and Service Times</p>
                     <br>
-                    <a href="/locations/" class="btn">Location Details</a>
+                    <a href="/Living-Water-Church/locations/" class="btn">Location Details</a>
                 </div>
 
                 <div class="join-card">
@@ -493,7 +494,7 @@
                     <p>Join us for Living Water Church Online:</p>
                     <p><strong>Sunday at 10:30am (CT)</strong></p>
                     <br>
-                    <a href="/watch/" class="btn">Attend Online</a>
+                    <a href="/Living-Water-Church/watch/" class="btn">Attend Online</a>
                 </div>
             </div>
         </section>
@@ -545,7 +546,7 @@
             <div class="sermon-text">
                 <h3>RECENT SERMON</h3>
                 <p>Listen to the most recent message from Living Water</p>
-                <a href="/watch/" class="btn">Sermon Library</a>
+                <a href="/Living-Water-Church/watch/" class="btn">Sermon Library</a>
             </div>
             <div class="sermon-video">
                 <div class="video-wrapper">
@@ -631,10 +632,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- 5. New Theme Logic ---
+        // --- 5. Theme Logic ---
         const htmlEl = document.documentElement;
         
-        // Initial load
         let currentTheme = localStorage.getItem('theme') || 'system';
         updateThemeUI(currentTheme);
         applyTheme(currentTheme);
@@ -647,16 +647,13 @@
         }
 
         function updateThemeUI(theme) {
-            // Remove 'active' class from all buttons
             document.querySelectorAll('.theme-switch-btn').forEach(btn => btn.classList.remove('active'));
-            // Add 'active' class to clicked button
             document.getElementById(`btn-${theme}`).classList.add('active');
         }
 
         function applyTheme(theme) {
             if (theme === 'system') {
                 htmlEl.removeAttribute('data-theme');
-                // Optional: Check system preference immediately
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     htmlEl.setAttribute('data-theme', 'dark');
                 } else {
